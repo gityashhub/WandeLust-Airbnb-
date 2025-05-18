@@ -77,7 +77,7 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.get("/",(req,res)=>{
-  res.send("server is working");
+  res.redirect("/listings");
 });
 
 app.use((req,res,next)=>{
