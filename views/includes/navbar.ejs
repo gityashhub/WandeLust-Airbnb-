@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-top py-2">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand fw-bold text-danger" href="/">
+      <i class="fa-regular fa-compass me-2"></i>WanderLust
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <!-- Left nav -->
+      <div class="navbar-nav me-auto">
+        <a class="nav-link explore-link d-flex align-items-center gap-1 px-3 py-1" href="/listings">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>Explore</span>
+        </a>
+        
+      </div>
+
+      <!-- Centered Search -->
+      <div class="navbar-nav mx-auto search">
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Where are you going?" aria-label="Search">
+          <button class="btn btn-search" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- Right nav -->
+      <div class="navbar-nav ms-auto align-items-center gap-2">
+        <a class="nav-link text-dark" href="/listings/new">Airbnb your home</a>
+        <% if (!cUser) { %>
+          <a class="btn btn-outline-danger px-3" href="/signup">Signup</a>
+          <a class="btn btn-outline-dark px-3" href="/login">Login</a>
+        <% } else { %>
+          <a class="btn btn-outline-secondary px-3" href="/logout">Logout</a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>

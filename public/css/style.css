@@ -1,0 +1,229 @@
+body{
+    display:flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container
+{
+    flex:1
+}
+
+.plus-jakarta-sans-body {
+  font-family: "Plus Jakarta Sans", serif;
+  font-optical-sizing: auto;
+  font-weight:300 ;
+  font-style: light;
+}
+
+ .navbar{
+    height:5rem;
+    background-color: white;
+ }
+
+.fa-compass{
+    color:#fe424d;
+    font-size:2rem;
+}
+
+.nav-link{
+    color:#222222 !important;
+}
+
+.finfolinks a{
+    text-decoration: none;
+    color: #222222;
+}
+
+.finfolinks a:hover{
+    text-decoration: underline;
+  
+}
+
+.finfolinks,.finfospecials,.fbrand{
+    width:100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.finfospecials i{
+    font-size:1.2rem;
+    margin-right: 1rem;
+}
+
+.finfo{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    height: 8rem;
+    background-color: #ebebeb;
+    flex-wrap: wrap;
+    align-items: space-evenly;
+} 
+
+.listing-card{
+    border:none!important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top{
+    border-radius: 1rem;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-body{
+    padding:0 !important;
+
+}
+
+.card-text p{
+    font-weight: 400 !important;
+}
+
+.linke{
+    text-decoration: none;
+}
+
+
+.card-img-overlay{
+    opacity: 0;
+
+}
+
+
+.card-img-overlay:hover{
+    opacity: 0.2;
+    background-color: white;
+}
+
+.add-btn
+{
+    background-color: #fe424d !important;
+    border: none  !important;
+}
+
+.edit-btn{
+    background-color: #fe424d !important;
+    border: none  !important;
+}
+
+.show-img{
+    height:30vh;
+}
+
+.btns{
+    display: flex;
+}
+
+.show-card{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+/* .search input {
+    border-radius: 20px;
+  }
+
+  .search .form-control:focus {
+    border-color: #fe424d; 
+    box-shadow: 0 0 0 0.2rem rgba(255, 56, 92, 0.25); 
+    outline: none;
+  }
+
+  .search button{
+    color: #fe424d;
+    border-color: #fe424d;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .btn-search:hover {
+    background-color: #fe424d !important;
+    border-color: #fe424d !important;
+    color: white !important;
+  }  */
+
+  /* --- Search Styling --- */
+.search input {
+    border-radius: 30px;
+    padding-left: 15px;
+    min-width: 200px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .search .form-control:focus {
+    border-color: #fe424d;
+    box-shadow: 0 0 0 0.2rem rgba(255, 56, 92, 0.3);
+    outline: none;
+  }
+  
+  .search button {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background: white;
+    color: #fe424d;
+    border: 1px solid #fe424d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .search button:hover {
+    background-color: #fe424d;
+    color: white;
+  }
+  
+  /* --- Navbar Button Styling --- */
+  .navbar-nav .btn {
+    border-radius: 20px;
+    font-size: 0.9rem;
+  }
+  
+  /* --- Responsive --- */
+  @media (max-width: 768px) {
+    .search {
+      margin-top: 10px;
+      width: 100%;
+    }
+  
+    .search input {
+      width: 100%;
+    }
+  
+    .navbar-nav.ms-auto {
+      gap: 0.5rem;
+    }
+  }
+  
+
+  /* Explore Link Styling */
+.explore-link {
+    border-radius: 20px;
+    color: #333;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .explore-link:hover {
+    background-color: rgba(254, 66, 77, 0.1); /* light red background */
+    color: #fe424d;
+    text-decoration: none;
+  }
+  
+  .explore-link i {
+    color: #fe424d;
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+  }
+  
+  .explore-link:hover i {
+    transform: scale(1.1);
+  }
+  
