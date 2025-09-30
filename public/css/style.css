@@ -634,3 +634,293 @@ a:focus {
     outline: 2px solid #fe424d;
     outline-offset: 2px;
 }
+
+/* === SKELETON LOADING === */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-card {
+    height: 350px;
+    border-radius: 1rem;
+}
+
+.skeleton-text {
+    height: 20px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+/* === ENHANCED NAVBAR === */
+.navbar {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(254, 66, 77, 0.25);
+}
+
+.navbar-brand {
+    position: relative;
+    overflow: hidden;
+}
+
+.navbar-brand::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #fe424d, #ff6b6b);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover::before {
+    transform: scaleX(1);
+}
+
+/* === ENHANCED BUTTONS === */
+.btn {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-outline-danger {
+    border-width: 2px;
+}
+
+.btn-outline-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(254, 66, 77, 0.3);
+}
+
+.btn-outline-dark:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* === ENHANCED FOOTER === */
+footer {
+    margin-top: auto;
+    padding: 2rem 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.finfo {
+    color: white;
+}
+
+.finfolinks a {
+    color: white;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 0.5rem 1rem;
+}
+
+.finfolinks a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: white;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+}
+
+.finfolinks a:hover::before {
+    width: 80%;
+}
+
+.finfospecials i {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    color: white;
+}
+
+.finfospecials i:hover {
+    transform: translateY(-5px) scale(1.1);
+    color: #ffd700;
+}
+
+.fbrand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: white;
+}
+
+/* === PRICE DISPLAY === */
+.card-text strong {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* === ENHANCED SCROLLBAR === */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #fe424d 0%, #ff6b6b 100%);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ff6b6b 0%, #fe424d 100%);
+}
+
+/* === ENHANCED SEARCH BAR === */
+.search input {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.search input:focus {
+    box-shadow: 0 4px 16px rgba(254, 66, 77, 0.2);
+    transform: translateY(-2px);
+}
+
+.search button {
+    box-shadow: 0 2px 8px rgba(254, 66, 77, 0.2);
+}
+
+.search button:hover {
+    box-shadow: 0 4px 12px rgba(254, 66, 77, 0.4);
+    transform: translateY(-2px);
+}
+
+/* === BADGE ENHANCEMENT === */
+.badge {
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* === IMPROVED GRID === */
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 1.5rem;
+}
+
+/* === PERFORMANCE OPTIMIZATIONS === */
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+    will-change: transform;
+}
+
+.listing-card {
+    will-change: transform, box-shadow;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+/* === MOBILE NAVIGATION IMPROVEMENTS === */
+@media (max-width: 768px) {
+    .navbar-collapse {
+        background: white;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-nav.ms-auto .btn {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+    
+    .search {
+        width: 100%;
+        margin: 1rem 0;
+    }
+    
+    .search form {
+        width: 100%;
+    }
+    
+    .search input {
+        flex: 1;
+    }
+}
+
+/* === PRINT STYLES === */
+@media print {
+    .navbar, .footer, .filters, .btns {
+        display: none;
+    }
+    
+    body {
+        background: white;
+    }
+    
+    .listing-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}
+
+/* === RIPPLE EFFECT === */
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: ripple-animation 0.6s ease-out;
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}

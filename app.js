@@ -6,6 +6,8 @@ const app = express();
 const path=require("path");
 const mongoose=require("mongoose");
 const methodOverride= require("method-override");
+const compression = require("compression");
+const helmet = require("helmet");
 const Listing = require("./models/listing.js");
 app.set("view engine","ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -45,8 +47,33 @@ if (missingEnvVars.length > 0) {
     process.exit(1);
 }
 
-app.use(express.static(path.join(__dirname,"public")));
-app.use(express.urlencoded({extended:true}));
+app.use(compression());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
+            imgSrc: ["'self'", "data:", "https:", "http:"],
+            connectSrc: ["'self'"]
+        }
+    }
+}));
+
+app.use(express.static(path.join(__dirname,"public"), {
+    maxAge: '1d',
+    etag: true,
+    lastModified: true,
+    setHeaders: (res, path) => {
+        if (path.endsWith('.css') || path.endsWith('.js')) {
+            res.setHeader('Cache-Control', 'public, max-age=86400');
+        } else if (path.match(/\.(jpg|jpeg|png|gif|webp)$/)) {
+            res.setHeader('Cache-Control', 'public, max-age=604800');
+        }
+    }
+}));
+app.use(express.urlencoded({extended:true, limit: '10mb'}));
 app.use(methodOverride("_method"));
 app.engine("ejs",ejsMate);
 // Removed duplicate declaration of store
