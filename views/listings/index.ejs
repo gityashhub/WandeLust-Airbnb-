@@ -1,45 +1,110 @@
 <% layout("/layouts/boilerplate")%>
 <body>
 <style>
-        .filters{
+        .filters {
             display: flex;
             align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            scrollbar-width: thin;
         }
 
-        .filter{
+        .filters::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .filters::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .filters::-webkit-scrollbar-thumb {
+            background: #fe424d;
+            border-radius: 10px;
+        }
+
+        .filter {
             padding: 1rem;
-            /* width: 100px; */
+            min-width: 80px;
             text-align: center;
             opacity: 0.7;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
-        .filter:hover{
+        .filter:hover {
             opacity: 1;
             cursor: pointer;
+            background-color: rgba(254, 66, 77, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .filter i {
+            font-size: 1.5rem;
+            color: #fe424d;
+            margin-bottom: 0.5rem;
+        }
+
+        .filter p {
+            margin: 0;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
 
         .tax-info {
-                display: none;
-                font-size: 0.85rem;
-                color: gray;
-
-            }
+            display: none;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
         
-        .tax-toggle{
-            border: 1px solid rgb(85, 82, 82);
-            border-radius: 10px;
-            color: rgb(85, 82, 82);
-            height: 40px;
+        .tax-toggle {
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            color: #495057;
+            height: auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1rem;
-            margin: 1rem;
-            margin-left: 5rem;
-            
+            padding: 0.75rem 1.25rem;
+            margin-left: auto;
+            white-space: nowrap;
+            transition: all 0.3s ease;
         }
 
-        
+        .tax-toggle:hover {
+            border-color: #fe424d;
+            background-color: rgba(254, 66, 77, 0.02);
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+            }
+            
+            .filter {
+                min-width: 70px;
+                padding: 0.75rem 0.5rem;
+            }
+            
+            .filter i {
+                font-size: 1.25rem;
+            }
+            
+            .filter p {
+                font-size: 0.75rem;
+            }
+            
+            .tax-toggle {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
     </style>
     <div class="filters">
         <div class="filter">
@@ -86,24 +151,31 @@
               </div>
           </div>
     </div>
-<div class="row row-cols-lg-4  row-cols-md-3  row-cols-sm-2 ">
+<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4">
   <% for(let listing of allListings) { %>
-   <a href="/listings/<%=listing._id%>"class="linke">
-  <div class="card col listing-card" >
-      <img src="<%=listing.image.url%>" class="card-img-top" alt="listings_image"style="height:20rem"/>
-      <div class="card-img-overlay"></div>
-      <div class="card-body">
-        
-        <p class="card-text">
-         <b><%=listing.title%></b> <br/>
-          &#8377;<%=listing.price.toLocaleString("en-IN")%>/night
-          <i class="tax-info">&nbsp; &nbsp; +18% GST</i>
-         </p>
-        
-      </div>
-    </div>
-  </a> 
-    <% } %></div>
+   <div class="col">
+     <a href="/listings/<%=listing._id%>" class="linke">
+       <div class="listing-card">
+         <img src="<%=listing.image.url%>" class="card-img-top" alt="<%=listing.title%>" loading="lazy"/>
+         <div class="card-img-overlay"></div>
+         <div class="card-body">
+           <h5 class="card-title"><%=listing.title%></h5>
+           <p class="card-text">
+             <strong class="text-primary-custom">&#8377;<%=listing.price.toLocaleString("en-IN")%></strong>
+             <span class="text-muted">/night</span>
+             <span class="tax-info">&nbsp;+18% GST</span>
+           </p>
+           <% if (listing.location) { %>
+           <p class="card-text text-muted mb-0">
+             <i class="fa-solid fa-location-dot"></i> <%=listing.location%>
+           </p>
+           <% } %>
+         </div>
+       </div>
+     </a>
+   </div>
+  <% } %>
+</div>
 
 
 
