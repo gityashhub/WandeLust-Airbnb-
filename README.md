@@ -1,4 +1,4 @@
-# 🏡 WanderLust – Airbnb Clone
+# 🏡 WanderLust – Book Your Hotel!!
 
 WanderLust is a web application inspired by Airbnb. It enables users to create, explore, and book property listings. The app offers a smooth experience with image uploads, secure authentication, user reviews.
 
