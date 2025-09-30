@@ -16,6 +16,7 @@ const {listingSchema, reviewSchema}=require("./schema.js");
 const Review = require("./models/review.js");
 const listingsRouter = require("./routes/listings.js");
 const reviewsRouter = require("./routes/reviews.js");
+const bookingsRouter = require("./routes/bookings.js");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
@@ -114,6 +115,7 @@ res.locals.cUser=req.user;
 
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews",reviewsRouter);
+app.use("/bookings", bookingsRouter);
 app.use("/",userRouter)
 
 app.all("*", (req, res,next) => {

@@ -29,11 +29,20 @@
 
       <!-- Right nav -->
       <div class="navbar-nav ms-auto align-items-center gap-2">
-        <a class="nav-link text-dark" href="/listings/new">Airbnb your home</a>
+        <% if (cUser && (cUser.role === 'hotel_owner' || cUser.role === 'admin')) { %>
+          <a class="nav-link text-dark" href="/listings/new">List Your Hotel</a>
+        <% } %>
+        <% if (cUser && cUser.role === 'customer') { %>
+          <a class="nav-link text-dark" href="/bookings/my">My Bookings</a>
+        <% } %>
+        <% if (cUser && cUser.role === 'admin') { %>
+          <a class="nav-link text-dark" href="/bookings/all">All Bookings</a>
+        <% } %>
         <% if (!cUser) { %>
           <a class="btn btn-outline-danger px-3" href="/signup">Signup</a>
           <a class="btn btn-outline-dark px-3" href="/login">Login</a>
         <% } else { %>
+          <span class="badge bg-info text-dark"><%= cUser.role.replace('_', ' ').toUpperCase() %></span>
           <a class="btn btn-outline-secondary px-3" href="/logout">Logout</a>
         <% } %>
       </div>

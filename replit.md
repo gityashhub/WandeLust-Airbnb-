@@ -52,6 +52,27 @@ The application requires the following secrets to be configured in Replit Secret
 - Updated server to listen on 0.0.0.0:5000 for Replit proxy compatibility
 - Installed dependencies with --legacy-peer-deps flag due to cloudinary version conflict
 - Set up workflow to run Express server
+- Implemented role-based access control system:
+  - Added role field to User model (customer, hotel_owner, admin)
+  - Created Booking model for hotel reservations
+  - Added role-based middleware for access control
+  - Updated routes with role-specific permissions
+  - Created booking system for customers
+  - Updated UI to show role-specific options
+
+## Role-Based System
+### User Roles:
+1. **Customer** - Can browse hotels, book hotels, view and cancel their bookings, leave reviews
+2. **Hotel Owner** - Can create, edit, and delete their own hotel listings
+3. **Admin** - Full access to all features, can manage all listings and view all bookings
+
+### Key Features:
+- Role selection during signup
+- Role-specific navigation and UI
+- Customers can only book (not create listings)
+- Hotel owners can only create/manage listings (not book)
+- Admin can manage everything and view all bookings
+- Booking system with check-in/check-out dates and guest count
 
 ## Development
 - Server runs on port 5000
@@ -63,4 +84,6 @@ The application requires the following secrets to be configured in Replit Secret
   - Resolved by installing with --legacy-peer-deps flag
 
 ## User Preferences
-None documented yet.
+- Implemented role-based access control as requested
+- Three distinct user types: Admin, Hotel Owners, and Customers
+- Separate sections and permissions for each role

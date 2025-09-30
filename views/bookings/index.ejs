@@ -1,0 +1,41 @@
+<% layout("/layouts/boilerplate")%>
+
+<div class="container mt-4">
+    <h2>My Bookings</h2>
+    
+    <% if (bookings.length === 0) { %>
+        <div class="alert alert-info mt-3">
+            <p>You haven't made any bookings yet.</p>
+            <a href="/listings" class="btn btn-primary">Browse Hotels</a>
+        </div>
+    <% } else { %>
+        <div class="row mt-3">
+            <% for(let booking of bookings) { %>
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= booking.listing.title %></h5>
+                            <p class="card-text">
+                                <strong>Location:</strong> <%= booking.listing.location %>, <%= booking.listing.country %><br>
+                                <strong>Check-in:</strong> <%= new Date(booking.checkIn).toLocaleDateString() %><br>
+                                <strong>Check-out:</strong> <%= new Date(booking.checkOut).toLocaleDateString() %><br>
+                                <strong>Guests:</strong> <%= booking.guests %><br>
+                                <strong>Total Price:</strong> &#8377;<%= booking.totalPrice.toLocaleString('en-IN') %><br>
+                                <strong>Status:</strong> 
+                                <span class="badge bg-<%= booking.status === 'confirmed' ? 'success' : booking.status === 'cancelled' ? 'danger' : 'warning' %>">
+                                    <%= booking.status.toUpperCase() %>
+                                </span>
+                            </p>
+                            <a href="/listings/<%= booking.listing._id %>" class="btn btn-primary btn-sm">View Hotel</a>
+                            <% if (booking.status === 'confirmed' || booking.status === 'pending') { %>
+                                <form method="POST" action="/bookings/<%= booking._id %>/cancel" class="d-inline">
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to cancel this booking?')">Cancel Booking</button>
+                                </form>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+</div>

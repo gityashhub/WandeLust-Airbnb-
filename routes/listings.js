@@ -4,14 +4,11 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError=require("../utils/Expresserror.js");
 const { listingSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
-const { isLoggedIn } = require("../middleware.js");
-const { isOwner } = require("../middleware.js");
+const { isLoggedIn, isOwner, isHotelOwnerOrAdmin } = require("../middleware.js");
 const listingController = require("../controllers/listings.js");
 const multer  = require('multer'); 
-const {storage} = require("../cloudConfig.js"); //Multer adds a body object and a file or files object to the request object. The body object contains the values of the text fields of the form, the file or files object contains the files uploaded via the form.
+const {storage} = require("../cloudConfig.js");
 const upload = multer({storage});
- // Import the storage object from cloudinary 
- // The destination folder where the uploaded files will be stored. In this case, it is set to 'uploads/'.
 
 
 const validateListing = (req, res, next) => {
@@ -30,9 +27,9 @@ router.get("/",wrapAsync(listingController.index));
 
 
 
-router.post("/", isLoggedIn, upload.single("image"), validateListing, listingController.createlisting,);
+router.post("/", isLoggedIn, isHotelOwnerOrAdmin, upload.single("image"), validateListing, listingController.createlisting,);
 
-router.get("/new",isLoggedIn,(req,res)=>{
+router.get("/new", isLoggedIn, isHotelOwnerOrAdmin, (req,res)=>{
 res.render("./listings/new.ejs");
 })
 
@@ -40,15 +37,10 @@ res.render("./listings/new.ejs");
 router.get("/:id", wrapAsync(listingController.showlisting));
 
 
-// listings.js
-router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(listingController.editListing));
+router.get("/:id/edit", isLoggedIn, isHotelOwnerOrAdmin, isOwner, wrapAsync(listingController.editListing));
 
+router.put("/:id", isLoggedIn, isHotelOwnerOrAdmin, isOwner, upload.single("image"), listingController.updateListing);
 
-
-router.put("/:id", isLoggedIn, isOwner, upload.single("image"), listingController.updateListing);
-
-
-
-router.delete("/:id",isOwner,isLoggedIn,listingController.destroyListing);
+router.delete("/:id", isLoggedIn, isHotelOwnerOrAdmin, isOwner, listingController.destroyListing);
 
   module.exports = router;
