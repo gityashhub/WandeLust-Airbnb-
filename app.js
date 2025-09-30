@@ -25,7 +25,24 @@ const LocalStrategy = require("passport-local");
 const User=require("./models/user.js");
 const userRouter= require("./routes/user.js");
 
+// Check for required environment variables
+const requiredEnvVars = ['ATLASDB_URL', 'SECRET', 'CLOUD_NAME', 'CLOUD_API_KEY', 'CLOUD_API_SECRET'];
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
 
+if (missingEnvVars.length > 0) {
+    console.error('\n❌ ERROR: Missing required environment variables:');
+    missingEnvVars.forEach(varName => {
+        console.error(`   - ${varName}`);
+    });
+    console.error('\nPlease configure these secrets in the Replit Secrets tab.');
+    console.error('Required secrets:');
+    console.error('  ATLASDB_URL: MongoDB Atlas connection string');
+    console.error('  SECRET: Session secret key');
+    console.error('  CLOUD_NAME: Cloudinary cloud name');
+    console.error('  CLOUD_API_KEY: Cloudinary API key');
+    console.error('  CLOUD_API_SECRET: Cloudinary API secret\n');
+    process.exit(1);
+}
 
 app.use(express.static(path.join(__dirname,"public")));
 app.use(express.urlencoded({extended:true}));
