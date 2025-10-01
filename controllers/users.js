@@ -36,3 +36,66 @@ module.exports.logout=(req, res) => {
         res.redirect("/listings");
       });
 }
+
+module.exports.adminDashboard = async (req, res) => {
+    const User = require("../models/user.js");
+    const Listing = require("../models/listing.js");
+    const Booking = require("../models/booking.js");
+    const Review = require("../models/review.js");
+
+    const totalUsers = await User.countDocuments();
+    const totalListings = await Listing.countDocuments();
+    const totalBookings = await Booking.countDocuments();
+    const totalReviews = await Review.countDocuments();
+
+    const usersByRole = await User.aggregate([
+        { $group: { _id: "$role", count: { $sum: 1 } } }
+    ]);
+
+    const recentUsers = await User.find().sort({ _id: -1 }).limit(5);
+    const recentListings = await Listing.find().populate('owner').sort({ _id: -1 }).limit(5);
+    const recentBookings = await Booking.find()
+        .populate('listing')
+        .populate('customer')
+        .sort({ createdAt: -1 })
+        .limit(5);
+
+    const bookingStats = await Booking.aggregate([
+        { $group: { _id: "$status", count: { $sum: 1 }, revenue: { $sum: "$totalPrice" } } }
+    ]);
+
+    res.render("admin/dashboard.ejs", {
+        stats: {
+            totalUsers,
+            totalListings,
+            totalBookings,
+            totalReviews,
+            usersByRole,
+            bookingStats
+        },
+        recentUsers,
+        recentListings,
+        recentBookings
+    });
+};
+
+module.exports.manageUsers = async (req, res) => {
+    const users = await User.find().sort({ _id: -1 });
+    res.render("admin/users.ejs", { users });
+};
+
+module.exports.updateUserRole = async (req, res) => {
+    const { userId } = req.params;
+    const { role } = req.body;
+    
+    await User.findByIdAndUpdate(userId, { role });
+    req.flash("success", "User role updated successfully");
+    res.redirect("/admin/users");
+};
+
+module.exports.deleteUser = async (req, res) => {
+    const { userId } = req.params;
+    await User.findByIdAndDelete(userId);
+    req.flash("success", "User deleted successfully");
+    res.redirect("/admin/users");
+};

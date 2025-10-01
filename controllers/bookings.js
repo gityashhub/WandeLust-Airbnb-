@@ -36,11 +36,11 @@ module.exports.createBooking = async (req, res) => {
         checkOut: checkOutDate,
         guests: parseInt(guests),
         totalPrice,
-        status: 'confirmed'
+        status: 'pending'
     });
 
     await newBooking.save();
-    req.flash("success", "Booking confirmed successfully!");
+    req.flash("success", "Booking request submitted successfully! Waiting for hotel owner confirmation.");
     res.redirect(`/bookings/${newBooking._id}`);
 };
 
@@ -55,7 +55,11 @@ module.exports.showBooking = async (req, res) => {
         return res.redirect("/listings");
     }
 
-    if (String(booking.customer._id) !== String(req.user._id) && req.user.role !== 'admin') {
+    const isCustomer = String(booking.customer._id) === String(req.user._id);
+    const isOwner = booking.listing && String(booking.listing.owner) === String(req.user._id);
+    const isAdmin = req.user.role === 'admin';
+
+    if (!isCustomer && !isOwner && !isAdmin) {
         req.flash("error", "You are not authorized to view this booking");
         return res.redirect("/listings");
     }
@@ -98,4 +102,44 @@ module.exports.allBookings = async (req, res) => {
         .sort({ createdAt: -1 });
     
     res.render("bookings/all.ejs", { bookings });
+};
+
+module.exports.ownerBookings = async (req, res) => {
+    const ownerListings = await Listing.find({ owner: req.user._id });
+    const listingIds = ownerListings.map(listing => listing._id);
+    
+    const bookings = await Booking.find({ listing: { $in: listingIds } })
+        .populate('listing')
+        .populate('customer')
+        .sort({ createdAt: -1 });
+    
+    res.render("bookings/owner.ejs", { bookings, ownerListings });
+};
+
+module.exports.updateBookingStatus = async (req, res) => {
+    const { bookingId } = req.params;
+    const { status } = req.body;
+    
+    const validStatuses = ['pending', 'confirmed', 'cancelled', 'completed'];
+    if (!validStatuses.includes(status)) {
+        req.flash("error", "Invalid status");
+        return res.redirect("/bookings/owner");
+    }
+    
+    const booking = await Booking.findById(bookingId).populate('listing');
+    
+    if (!booking) {
+        req.flash("error", "Booking not found");
+        return res.redirect("/bookings/owner");
+    }
+
+    if (String(booking.listing.owner) !== String(req.user._id) && req.user.role !== 'admin') {
+        req.flash("error", "You are not authorized to update this booking");
+        return res.redirect("/bookings/owner");
+    }
+
+    booking.status = status;
+    await booking.save();
+    req.flash("success", `Booking ${status} successfully`);
+    res.redirect("/bookings/owner");
 };

@@ -32,11 +32,14 @@
         <% if (cUser && (cUser.role === 'hotel_owner' || cUser.role === 'admin')) { %>
           <a class="nav-link text-dark" href="/listings/new">List Your Hotel</a>
         <% } %>
+        <% if (cUser && (cUser.role === 'hotel_owner' || cUser.role === 'admin')) { %>
+          <a class="nav-link text-dark" href="/bookings/owner">My Property Bookings</a>
+        <% } %>
         <% if (cUser && cUser.role === 'customer') { %>
           <a class="nav-link text-dark" href="/bookings/my">My Bookings</a>
         <% } %>
         <% if (cUser && cUser.role === 'admin') { %>
-          <a class="nav-link text-dark" href="/bookings/all">All Bookings</a>
+          <a class="nav-link text-dark" href="/admin/dashboard">Admin Panel</a>
         <% } %>
         <% if (!cUser) { %>
           <a class="btn btn-outline-danger px-3" href="/signup">Signup</a>

@@ -1,0 +1,71 @@
+<% layout("/layouts/boilerplate")%>
+
+<div class="container mt-4">
+    <h2>My Property Bookings (Hotel Owner Dashboard)</h2>
+    
+    <% if (bookings.length === 0) { %>
+        <div class="alert alert-info mt-3">
+            <p>No bookings have been made for your properties yet.</p>
+            <% if (ownerListings.length === 0) { %>
+                <p>You haven't listed any properties yet. <a href="/listings/new">Create your first listing</a></p>
+            <% } %>
+        </div>
+    <% } else { %>
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Hotel</th>
+                        <th>Customer</th>
+                        <th>Contact</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Guests</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let booking of bookings) { %>
+                        <tr>
+                            <td><%= booking._id.toString().slice(-6) %></td>
+                            <td><a href="/listings/<%= booking.listing._id %>"><%= booking.listing.title %></a></td>
+                            <td><%= booking.customer.username %></td>
+                            <td><%= booking.customer.email %></td>
+                            <td><%= new Date(booking.checkIn).toLocaleDateString() %></td>
+                            <td><%= new Date(booking.checkOut).toLocaleDateString() %></td>
+                            <td><%= booking.guests %></td>
+                            <td>&#8377;<%= booking.totalPrice.toLocaleString('en-IN') %></td>
+                            <td>
+                                <span class="badge bg-<%= booking.status === 'confirmed' ? 'success' : booking.status === 'cancelled' ? 'danger' : booking.status === 'completed' ? 'info' : 'warning' %>">
+                                    <%= booking.status.toUpperCase() %>
+                                </span>
+                            </td>
+                            <td>
+                                <% if (booking.status === 'pending') { %>
+                                    <form method="POST" action="/bookings/<%= booking._id %>/status" class="d-inline">
+                                        <input type="hidden" name="status" value="confirmed">
+                                        <button class="btn btn-sm btn-success">Confirm</button>
+                                    </form>
+                                    <form method="POST" action="/bookings/<%= booking._id %>/status" class="d-inline">
+                                        <input type="hidden" name="status" value="cancelled">
+                                        <button class="btn btn-sm btn-danger">Reject</button>
+                                    </form>
+                                <% } else if (booking.status === 'confirmed') { %>
+                                    <form method="POST" action="/bookings/<%= booking._id %>/status" class="d-inline">
+                                        <input type="hidden" name="status" value="completed">
+                                        <button class="btn btn-sm btn-info">Mark Complete</button>
+                                    </form>
+                                <% } else { %>
+                                    <span class="text-muted">No actions</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    <% } %>
+</div>
