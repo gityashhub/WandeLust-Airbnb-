@@ -5,6 +5,13 @@ const User = require("../models/user.js");
 module.exports.signup=async (req, res) => {
     try {
         let {username , email , password, role}=req.body;
+        
+        // Prevent admin role assignment during signup
+        if (role === 'admin') {
+            req.flash("error", "Admin accounts can only be created manually in the database");
+            return res.redirect("/signup");
+        }
+        
         const newUser = new User({ username, email, role: role || 'customer' });
         const registeredUser = await User.register(newUser, password);
         req.login(registeredUser, function(err) {
@@ -23,8 +30,13 @@ module.exports.signup=async (req, res) => {
 
 module.exports.login=async(req, res) => {
     req.flash("success", " Welcome back to Wanderlust!");
-    let redirectUrl = res.locals.redirectUrl || "/listings";
     
+    // Redirect admin users to admin dashboard
+    if (req.user.role === 'admin') {
+        return res.redirect("/admin/dashboard");
+    }
+    
+    let redirectUrl = res.locals.redirectUrl || "/listings";
     res.redirect(redirectUrl);
 
 }
