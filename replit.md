@@ -56,6 +56,8 @@ The application requires the following secrets to be configured in Replit:
 - Added user management interface for admins at /admin/users
 - Implemented booking workflow: pending → confirmed/cancelled → completed
 - Updated navbar with role-specific navigation links
+- **Security Enhancement**: Removed public admin registration - admin accounts can only be created manually in database
+- Implemented automatic redirect: admins are redirected to /admin/dashboard upon login
 
 ## Important Notes
 - The app checks for required environment variables on startup
@@ -63,3 +65,26 @@ The application requires the following secrets to be configured in Replit:
 - All dependencies are already installed via package.json
 - Static files are served from /public directory with caching headers
 - Session data is stored in MongoDB for persistence
+
+## Admin Access Setup
+Admin accounts cannot be created through the signup form for security reasons. To create an admin account:
+
+1. **Create a regular user** through the signup form (choose Customer or Hotel Owner role)
+2. **Access your MongoDB database** (using MongoDB Atlas UI or MongoDB Compass)
+3. **Find the user** in the `users` collection
+4. **Update the user's role** to 'admin':
+   ```javascript
+   // In MongoDB shell or Compass
+   db.users.updateOne(
+     { username: "your_username" },
+     { $set: { role: "admin" } }
+   )
+   ```
+5. **Login with those credentials** - you'll automatically be redirected to /admin/dashboard
+
+### Admin Dashboard Features
+- View system statistics (users, listings, bookings, reviews)
+- User management (view all users, update roles, delete users)
+- Role distribution analytics
+- Recent activity monitoring
+- Booking statistics and revenue tracking
